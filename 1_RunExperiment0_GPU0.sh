@@ -27,7 +27,7 @@ fi
 # Run the container
 set -x
 #docker run --runtime nvidia --name ${NAME}  -it -d --rm --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /home:/home --device /dev/bus/usb --device /dev/snd ${NAME}
-NV_GPU='0' nvidia-docker run -it -d --rm --name ${CONTAINER} --runtime=nvidia --shm-size=4g --ulimit memlock=-1 --ulimit stack=67108864 -v $PWD:/workspace/wav2vec2/ -v ${NAME}
+NV_GPU="0" nvidia-docker run -it -d --rm --name ${CONTAINER} --runtime=nvidia --shm-size=4g --ulimit memlock=-1 --ulimit stack=67108864 -v $PWD:/workspace/wav2vec2/ -v ${NAME}
 set +x
 
 # Execute
