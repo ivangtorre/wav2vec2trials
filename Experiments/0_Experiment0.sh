@@ -24,8 +24,8 @@ MASK_TIME=${21:-${MASK_TIME:-0.1}}
 HIDDEN_DROPOUT=${22:-${HIDDEN_DROPOUT:-0.04}}
 ACTIVATION_DROPOUT=${23:-${ACTIVATION_DROPOUT:-0.07}}
 ATTENTION_DROPOUT=${24:-${ATTENTION_DROPOUT:-0.2}}
-MAX_TRAIN_SAMPLES=${25:-${MAX_TRAIN_SAMPLES:-30000}}  # Set to 0 for using all dataset
-MAX_VAL_SAMPLES=${26:-${MAX_VAL_SAMPLES:-6000}}  # Set to 0 for using all dataset
+MAX_TRAIN_SAMPLES=${25:-${MAX_TRAIN_SAMPLES:-300}}  # Set to 0 for using all dataset
+MAX_VAL_SAMPLES=${26:-${MAX_VAL_SAMPLES:-60}}  # Set to 0 for using all dataset
 ######################################################
 
 
