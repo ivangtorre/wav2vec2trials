@@ -2,7 +2,7 @@
 
 
 ##### PARAMETERS ##################################
-DATA_DIR=${1:-${DATA_DIR:-"/data/APHASIA/audiosV3/"}}  # The folder where audios are stored
+DATA_DIR=${1:-${DATA_DIR:-"~/APHASIA/audiosV3/"}}  # The folder where audios are stored
 DATASET=${2:-${DATASET:-"df_final.csv"}}  # Name of pandas dataframe
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
@@ -34,7 +34,7 @@ RESULT_DIR=$RESULT_DIR/BATCH-$BATCH_SIZE.EPOCH-$EPOCHS.FDROP-$FEAT_PROJ_DROPOUT.
 mkdir -p "$RESULT_DIR"
 
 
-CMD="python3 train_wav2vec2.py"
+CMD="python3 utils/train_wav2vec2.py"
 CMD+=" --model_name_or_path=$MODELXLSR"
 CMD+=" --dataset_config_name=$DATASET"
 CMD+=" --output_dir=$RESULT_DIR"
