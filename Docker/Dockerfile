@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:21.05-py3
+FROM nvcr.io/nvidia/pytorch:20.11-py3
 
 RUN apt update && \
     apt install -y bash \
@@ -18,7 +18,7 @@ RUN apt update && \
 ENV LANG=en_US.utf8
 ENV LC_ALL='en_US.utf8'
 
-#RUN pip3 install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip3 install torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 
 WORKDIR /workspace
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
