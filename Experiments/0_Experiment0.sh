@@ -2,7 +2,7 @@
 
 
 ##### PARAMETERS ##################################
-DATA_DIR=${1:-${DATA_DIR:-"~/APHASIA/audiosV3/"}}  # The folder where audios are stored
+DATA_DIR=${1:-${DATA_DIR:-"/home/VICOMTECH/igonzalez/APHASIA/audiosV3/"}}  # The folder where audios are stored
 DATASET=${2:-${DATASET:-"df_final.csv"}}  # Name of pandas dataframe
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
