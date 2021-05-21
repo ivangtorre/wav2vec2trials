@@ -329,7 +329,7 @@ def main():
 
     # FILTER DURATION
     df["duration"] = (df["mark_end"] - df["mark_start"])
-    df = df[df["duration"] < 20000]
+    df = df[df["duration"] < 25000]
     df = df.reset_index(drop=True)
 
     # REFORMAT AND SAVE
