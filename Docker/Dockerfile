@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:20.11-py3
+FROM nvcr.io/nvidia/pytorch:21.03-py3
 
 RUN apt update && \
     apt install -y bash \
