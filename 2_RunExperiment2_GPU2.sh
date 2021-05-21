@@ -5,7 +5,8 @@
 
 # VARIABLES ####################
 NAME=${NAME:-"wav2vec2"}
-CONTAINER=${CONTAINER:-"wav2vec2_0"}
+CONTAINER=${CONTAINER:-"wav2vec2_2"}
+export NV_GPU="2"
 
 ################################
 ################################
@@ -26,11 +27,8 @@ fi
 
 # Run the container
 set -x
-export NV_GPU="0"
-#docker run --runtime nvidia --name ${NAME}  -it -d --rm --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /home:/home --device /dev/bus/usb --device /dev/snd ${NAME}
 nvidia-docker run -it -d --rm --name ${CONTAINER} --runtime=nvidia --shm-size=4g --ulimit memlock=-1 --ulimit stack=67108864 -v /home:/home -v $PWD:/workspace/wav2vec2/ ${NAME}
 set +x
 
 # Execute
-nvidia-docker exec -it ${CONTAINER} bash Experiments/0_Experiment0.sh
-#nvidia-docker exec -it ${CONTAINER} bash
+nvidia-docker exec -it ${CONTAINER} bash Experiments/1_Experiment2.sh
