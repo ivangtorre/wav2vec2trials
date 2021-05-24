@@ -7,14 +7,14 @@ DATASET=${2:-${DATASET:-"df_final.csv"}}  # Name of pandas dataframe
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
 MODEL_DIR=${6:-${MODEL_DIR:-"/datasets/modelxlsr"}}
-NUM_GPUS=${7:-${NUM_GPUS:-1}}
+NUM_GPUS=${7:-${NUM_GPUS:-2}}
 EPOCHS=${9:-${EPOCHS:-30}}
 SEED=${10:-${SEED:-6}}
 BATCH_SIZE=${11:-${BATCH_SIZE:-8}} # original 16
 LEARNING_RATE=${12:-${LEARNING_RATE:-"0.0003"}}
 WARMUP_RATIO=${13:-${WARMUP_RATIO:-"0.1"}}
-SAVE_STATES=${14:-${SAVE_STATES:-5000}}
-EVAL_STATES=${15:-${EVAL_STATES:-5000}}
+SAVE_STATES=${14:-${SAVE_STATES:-100}}
+EVAL_STATES=${15:-${EVAL_STATES:-100}}
 LOG_STATES=${16:-${LOG_STATES:-100}}
 SAVE_LIMIT=${17:-${SAVE_LIMIT:-2}}
 FEAT_PROJ_DROPOUT=${18:-${FEAT_PROJ_DROPOUT:-0.2}}
@@ -24,8 +24,8 @@ MASK_TIME=${21:-${MASK_TIME:-0.1}}
 HIDDEN_DROPOUT=${22:-${HIDDEN_DROPOUT:-0.04}}
 ACTIVATION_DROPOUT=${23:-${ACTIVATION_DROPOUT:-0.07}}
 ATTENTION_DROPOUT=${24:-${ATTENTION_DROPOUT:-0.2}}
-MAX_TRAIN_SAMPLES=${25:-${MAX_TRAIN_SAMPLES:-0}}  # Set to 0 for using all dataset
-MAX_VAL_SAMPLES=${26:-${MAX_VAL_SAMPLES:-0}}  # Set to 0 for using all dataset
+MAX_TRAIN_SAMPLES=${25:-${MAX_TRAIN_SAMPLES:-1000}}  # Set to 0 for using all dataset
+MAX_VAL_SAMPLES=${26:-${MAX_VAL_SAMPLES:-100}}  # Set to 0 for using all dataset
 ######################################################
 
 
