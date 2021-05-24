@@ -340,9 +340,12 @@ def main():
     all_dataset.to_csv("dummy_dataset.csv")
 
     # SPLIT TRAIN-TEST
-    all_dataset = all_dataset.train_test_split(test_size=0.2)
+    all_dataset = all_dataset.train_test_split(test_size=0.4)
     train_dataset = all_dataset["train"]
-    eval_dataset = all_dataset["test"]
+    dummy_dataset = all_dataset["test"]
+    dummy_dataset = all_dataset.train_test_split(test_size=0.375)
+    eval_dataset = dummy_dataset["train"]
+    test_dataset = dummy_dataset["test"]
 
     #################################################################################################################
 
