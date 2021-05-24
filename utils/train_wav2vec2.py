@@ -342,10 +342,11 @@ def main():
     # SPLIT TRAIN-TEST
     all_dataset = all_dataset.train_test_split(test_size=0.4)
     train_dataset = all_dataset["train"]
-    dummy_dataset = all_dataset["test"]
-    dummy_dataset = all_dataset.train_test_split(test_size=0.375)
-    eval_dataset = dummy_dataset["train"]
-    test_dataset = dummy_dataset["test"]
+    eval_dataset = all_dataset["test"]
+    #dummy_dataset = all_dataset["test"]
+    #dummy_dataset = all_dataset.train_test_split(test_size=0.375)
+    #eval_dataset = dummy_dataset["train"]
+    #test_dataset = dummy_dataset["test"]
 
     #################################################################################################################
 
