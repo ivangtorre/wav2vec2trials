@@ -218,27 +218,6 @@ def speech_file_to_array_fn(batch):
 
 
 
-def compute_metrics(pred):
-    wer_metric = datasets.load_metric("wer")
-    cer_metric = datasets.load_metric("cer")
-    pred_logits = pred.predictions
-    pred_ids = np.argmax(pred_logits, axis=-1)
-    pred.label_ids[pred.label_ids == -100] = processor.tokenizer.pad_token_id
-    pred_str = processor.batch_decode(pred_ids)
-    # we do not want to group tokens when computing the metrics
-    label_str = processor.batch_decode(pred.label_ids, group_tokens=False)
-    logger.info("")
-    logger.info("***** REFERENCE (EVALUATION): ****")
-    logger.info(label_str[0:100])
-    logger.info("")
-    logger.info(" ***** PREDICTION (EVALUATION): *****")
-    logger.info(pred_str[0:100])
-    logger.info("")
-    wer = wer_metric.compute(predictions=pred_str, references=label_str)
-    cer = cer_metric.compute(predictions=pred_str, references=label_str)
-    return {"wer": wer, "cer": cer}
-
-
 def extract_all_chars(batch):
     all_text = " ".join(batch["sentence"])
     vocab = list(set(all_text))
@@ -384,6 +363,27 @@ def main():
             batch["labels"] = processor(batch["target_text"]).input_ids
         return batch
 
+
+    def compute_metrics(pred):
+        wer_metric = datasets.load_metric("wer")
+        cer_metric = datasets.load_metric("cer")
+        pred_logits = pred.predictions
+        pred_ids = np.argmax(pred_logits, axis=-1)
+        pred.label_ids[pred.label_ids == -100] = processor.tokenizer.pad_token_id
+        pred_str = processor.batch_decode(pred_ids)
+        # we do not want to group tokens when computing the metrics
+        label_str = processor.batch_decode(pred.label_ids, group_tokens=False)
+        logger.info("")
+        logger.info("***** REFERENCE (EVALUATION): ****")
+        logger.info(label_str[0:100])
+        logger.info("")
+        logger.info(" ***** PREDICTION (EVALUATION): *****")
+        logger.info(pred_str[0:100])
+        logger.info("")
+        wer = wer_metric.compute(predictions=pred_str, references=label_str)
+        cer = cer_metric.compute(predictions=pred_str, references=label_str)
+        return {"wer": wer, "cer": cer}
+
     logger.info("JUST BEFORE TRAINING")
     train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
     eval_dataset = eval_dataset.map(prepare_dataset, remove_columns=eval_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
@@ -392,7 +392,6 @@ def main():
     # train_dataset11 = train_dataset.map(speed11, num_proc=data_args.preprocessing_num_workers)
     # train_dataset09 = train_dataset.map(speed09, num_proc=data_args.preprocessing_num_workers)
     # train_dataset = datasets.concatenate_datasets([train_dataset, train_dataset09, train_dataset11])
-
 
     ## PREPARE TRAINING ##---------------------------------------
     if model_args.freeze_feature_extractor:
