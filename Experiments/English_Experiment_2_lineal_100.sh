@@ -5,7 +5,7 @@
 DATA_DIR=${1:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/data/"}}  # The folder where audios are stored
 LANGUAGE=${2:-${LANGUAGE:-"english"}} # Language
 DATASET=${2:-${DATASET:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_train.csv"}}  # Train Dataset Location
-DATASETEVAL=${2:-${DATASETEVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_eval.csv"}}  # Eval Dataset Location
+DATASET_EVAL=${2:-${DATASET_EVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_eval.csv"}}  # Eval Dataset Location
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
 MODEL_DIR=${6:-${MODEL_DIR:-"/datasets/modelxlsr"}}
@@ -40,6 +40,7 @@ mkdir -p "$RESULT_DIR"
 CMD="python3 utils/train_wav2vec2.py"
 CMD+=" --model_name_or_path=$MODELXLSR"
 CMD+=" --dataset_config_name=$DATASET"
+CMD+=" --dataset_eval=$DATASET_EVAL"
 CMD+=" --output_dir=$RESULT_DIR"
 CMD+=" --overwrite_output_dir"
 CMD+=" --num_train_epochs=$EPOCHS"
