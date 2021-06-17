@@ -29,6 +29,8 @@ from transformers import (
     is_apex_available,
     set_seed,
 )
+
+os.environ["WANDB_DISABLED"] = "true"
 from transformers.trainer_utils import get_last_checkpoint, is_main_process
 
 transformers.logging.set_verbosity_info()
