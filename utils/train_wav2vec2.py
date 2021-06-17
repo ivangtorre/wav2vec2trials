@@ -347,11 +347,11 @@ def main():
 
     # PREPARE AUDIOS ##
     logger.info("LOADING AUDIOS")
-    train_dataset = train_dataset.map(speech_file_to_array_fn, remove_columns=train_dataset.column_names)
-    eval_dataset = eval_dataset.map(speech_file_to_array_fn, remove_columns=eval_dataset.column_names)
+    train_dataset = train_dataset.map(speech_file_to_array_fn)#, remove_columns=train_dataset.column_names)
+    eval_dataset = eval_dataset.map(speech_file_to_array_fn)#, remove_columns=eval_dataset.column_names)
 
     def prepare_dataset(batch):
-        print(batch)
+        print(batch["path"])
         # check that all files have the correct sampling rate
         assert (
                 len(set(batch["sampling_rate"])) == 1
