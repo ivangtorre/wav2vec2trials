@@ -2,15 +2,15 @@
 
 
 ##### PARAMETERS ##################################
-DATA_DIR=${1:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/audiosV3/data/"}}  # The folder where audios are stored
+DATA_DIR=${1:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2017_06_17/data/"}}  # The folder where audios are stored
 LANGUAGE=${2:-${LANGUAGE:-"english"}} # Language
-DATASET=${2:-${DATASET:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/audiosV3/df_final.csv"}}  # Train Dataset Location
-DATASETEVAL=${2:-${DATASETEVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/audiosV3/df_final.csv"}}  # Eval Dataset Location
+DATASET=${2:-${DATASET:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2017_06_17/df_train.csv"}}  # Train Dataset Location
+DATASETEVAL=${2:-${DATASETEVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2017_06_17/df_eval.csv"}}  # Eval Dataset Location
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
 MODEL_DIR=${6:-${MODEL_DIR:-"/datasets/modelxlsr"}}
 NUM_GPUS=${7:-${NUM_GPUS:-1}}
-EPOCHS=${9:-${EPOCHS:-25}}
+EPOCHS=${9:-${EPOCHS:-100}}
 SEED=${10:-${SEED:-6}}
 BATCH_SIZE=${11:-${BATCH_SIZE:-8}} # original 16
 LEARNING_RATE=${12:-${LEARNING_RATE:-"0.0002"}}

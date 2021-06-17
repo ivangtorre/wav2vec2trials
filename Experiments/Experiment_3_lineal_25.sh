@@ -2,10 +2,10 @@
 
 
 ##### PARAMETERS ##################################
-DATA_DIR=${1:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/audiosV3/data/"}}  # The folder where audios are stored
+DATA_DIR=${1:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2017_06_17/data/"}}  # The folder where audios are stored
 LANGUAGE=${2:-${LANGUAGE:-"english"}} # Language
-DATASET=${2:-${DATASET:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/audiosV3/df_final.csv"}}  # Train Dataset Location
-DATASET_EVAL=${2:-${DATASET_EVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/audiosV3/df_final.csv"}}  # Eval Dataset Location
+DATASET=${2:-${DATASET:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2017_06_17/df_train.csv"}}  # Train Dataset Location
+DATASETEVAL=${2:-${DATASETEVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2017_06_17/df_eval.csv"}}  # Eval Dataset Location
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
 MODEL_DIR=${6:-${MODEL_DIR:-"/datasets/modelxlsr"}}
@@ -27,8 +27,8 @@ HIDDEN_DROPOUT=${22:-${HIDDEN_DROPOUT:-0.025}}
 ACTIVATION_DROPOUT=${23:-${ACTIVATION_DROPOUT:-0.026}}
 ATTENTION_DROPOUT=${24:-${ATTENTION_DROPOUT:-0.036}}
 LR_TYPE=${25:-${LR_TYPE:"linear"}}
-MAX_TRAIN_SAMPLES=${27:-${MAX_TRAIN_SAMPLES:-0}}  # Set to 0 for using all dataset
-MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-0}}  # Set to 0 for using all dataset
+MAX_TRAIN_SAMPLES=${27:-${MAX_TRAIN_SAMPLES:-100}}  # Set to 0 for using all dataset
+MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-100}}  # Set to 0 for using all dataset
 ######################################################
 
 
