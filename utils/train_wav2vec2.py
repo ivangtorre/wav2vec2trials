@@ -209,14 +209,6 @@ class CTCTrainer(Trainer):
         return loss.detach()
 
 
-def speech_file_to_array_fn(batch):
-    speech_array, sampling_rate = torchaudio.load(batch["path"])
-    batch["speech"] = speech_array[0].numpy()
-    batch["sampling_rate"] = 16_000
-    batch["target_text"] = batch["sentence"]
-    return batch
-
-
 
 def extract_all_chars(batch):
     all_text = " ".join(batch["sentence"])
@@ -346,6 +338,12 @@ def main():
     if data_args.max_val_samples is not (None or 0):
         eval_dataset = eval_dataset.select(range(data_args.max_val_samples))
 
+    def speech_file_to_array_fn(batch):
+        speech_array, sampling_rate = torchaudio.load(batch["path"])
+        batch["speech"] = speech_array[0].numpy()
+        batch["sampling_rate"] = 16_000
+        batch["target_text"] = batch["sentence"]
+        return batch
 
     # PREPARE AUDIOS ##
     logger.info("LOADING AUDIOS")
