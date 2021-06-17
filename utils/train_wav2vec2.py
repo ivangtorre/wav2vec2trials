@@ -304,7 +304,10 @@ def main():
     # Get the datasets:
     df_train = pd.read_csv(data_args.dataset_config_name, delimiter=',')
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
-    #df = df[~df["transcription"].isnull()]
+    df_train = df_train[~df_train["transcription"].isnull()]
+    df_test = df_test[~df_test["transcription"].isnull()]
+    df_train = df_train.reset_index(drop=True)
+    df_test = df_test.reset_index(drop=True)
 
     # FILTER DURATION
     #df["duration"] = (df["mark_end"] - df["mark_start"])
