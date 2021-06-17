@@ -3,7 +3,6 @@ import json
 import logging
 import os
 import pandas as pd
-import re
 import sys
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
@@ -41,10 +40,6 @@ if version.parse(torch.__version__) >= version.parse("1.6"):
     _is_native_amp_available = True
     from torch.cuda.amp import autocast
 
-###########################################################3
-# num_file_train = 3000
-# num_file_eval = 300
-#############################################################
 logger = logging.getLogger(__name__)
 
 
@@ -68,50 +63,18 @@ class ModelArguments:
     Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
     """
 
-    model_name_or_path: str = field(
-        metadata={"help": "Path to pretrained model or model identifier from huggingface.co/models"}
-    )
-    cache_dir: Optional[str] = field(
-        default=True,
-        metadata={"help": "Where do you want to store the pretrained models downloaded from huggingface.co"},
-    )
-    model_cache_dir: Optional[str] = field(
-        default=None,
-        metadata={"help": "Where do you want to store the pretrained models downloaded from huggingface.co"},
-    )
-    freeze_feature_extractor: Optional[bool] = field(
-        default=True, metadata={"help": "Whether to freeze the feature extractor layers of the model."}
-    )
-    attention_dropout: Optional[float] = field(
-        default=0.1, metadata={"help": "The dropout ratio for the attention probabilities."}
-    )
-    activation_dropout: Optional[float] = field(
-        default=0.1, metadata={"help": "The dropout ratio for activations inside the fully connected layer."}
-    )
-    hidden_dropout: Optional[float] = field(
-        default=0.1,
-        metadata={
-            "help": "The dropout probabilitiy for all fully connected layers in the embeddings, encoder, and pooler."
-        },
-    )
-    feat_proj_dropout: Optional[float] = field(
-        default=0.1,
-        metadata={"help": "The dropout probabilitiy for all 1D convolutional layers in feature extractor."},
-    )
-    mask_time_prob: Optional[float] = field(
-        default=0.05,
-        metadata={
-            "help": "Propability of each feature vector along the time axis to be chosen as the start of the vector"
-                    "span to be masked. Approximately ``mask_time_prob * sequence_length // mask_time_length`` feature"
-                    "vectors will be masked along the time axis. This is only relevant if ``apply_spec_augment is True``."
-        },
-    )
-    gradient_checkpointing: Optional[bool] = field(
-        default=True,
-        metadata={
-            "help": "If True, use gradient checkpointing to save memory at the expense of slower backward pass."
-        },
-    )
+    model_name_or_path: str = field(metadata={"help": "Path to pretrained model or model identifier from huggingface.co/models"})
+    cache_dir: Optional[str] = field(default=True, metadata={"help": "Where do you want to store the pretrained models downloaded from huggingface.co"},)
+    model_cache_dir: Optional[str] = field(default=None, metadata={"help": "Where do you want to store the pretrained models downloaded from huggingface.co"},)
+    freeze_feature_extractor: Optional[bool] = field(default=True, metadata={"help": "Whether to freeze the feature extractor layers of the model."})
+    attention_dropout: Optional[float] = field(default=0.1, metadata={"help": "The dropout ratio for the attention probabilities."})
+    activation_dropout: Optional[float] = field(default=0.1, metadata={"help": "The dropout ratio for activations inside the fully connected layer."})
+    hidden_dropout: Optional[float] = field(default=0.1,metadata={"help": "The dropout probabilitiy for all fully connected layers in the embeddings, encoder, and pooler."},)
+    feat_proj_dropout: Optional[float] = field(default=0.1, metadata={"help": "The dropout probabilitiy for all 1D convolutional layers in feature extractor."},)
+    mask_time_prob: Optional[float] = field(default=0.05,metadata={
+            "help": "Approximately ``mask_time_prob * sequence_length // mask_time_length`` feature"
+                    "vectors will be masked along the time axis. This is only relevant if ``apply_spec_augment is True``."},)
+    gradient_checkpointing: Optional[bool] = field(default=True,metadata={"help": "If True, use gradient checkpointing to save memory at the expense of slower backward pass."},)
     layerdrop: Optional[float] = field(default=0.0, metadata={"help": "The LayerDrop probability."})
 
 
@@ -124,38 +87,15 @@ class DataTrainingArguments:
     the command line.
     """
 
-    dataset_config_name: Optional[str] = field(
-        default=None, metadata={"help": "The configuration name of the dataset to use (via the datasets library)."})
-    train_split_name: Optional[str] = field(
-        default="train+validation",
-        metadata={
-            "help": "The name of the training data set split to use (via the datasets library). Defaults to 'train'"
-        },
-    )
-    overwrite_cache: bool = field(
-        default=True, metadata={"help": "Overwrite the cached preprocessed datasets or not."}
-    )
-    preprocessing_num_workers: Optional[int] = field(
-        default=None,
-        metadata={"help": "The number of processes to use for the preprocessing."},
-    )
-    max_train_samples: Optional[int] = field(
-        default=None,
-        metadata={
-            "help": "For debugging purposes or quicker training, truncate the number of training examples to this "
-                    "value if set."
-        },
-    )
-    max_val_samples: Optional[int] = field(
-        default=None,
-        metadata=dict(
-            help="For debugging purposes or quicker training, truncate the number of validation examples to this "
-                 "value if set."),
-    )
-    chars_to_ignore: List[str] = list_field(
-        default=[",", "?", ".", "!", "-", ";", ":", '""', "%", "'", '"', "�", "^", "/", "$"],
-        metadata={"help": "A list of characters to remove from the transcripts."},
-    )
+    dataset_config_name: Optional[str] = field(default=None, metadata={"help": "The configuration name of the dataset to use (via the datasets library)."})
+    dataset_eval: Optional[str] = field(default=None, metadata={"help": "Eval dataset."})
+    train_split_name: Optional[str] = field(default="train+validation", metadata={ "help": "training data set split to use (via the datasets library). Defaults to 'train'"},)
+    overwrite_cache: bool = field(default=True, metadata={"help": "Overwrite the cached preprocessed datasets or not."})
+    preprocessing_num_workers: Optional[int] = field(default=None,metadata={"help": "The number of processes to use for the preprocessing."},)
+    max_train_samples: Optional[int] = field(default=None, metadata={"help": "For debugging purposes"},)
+    max_val_samples: Optional[int] = field(default=None,metadata=dict(help="For debugging purposes"),)
+    chars_to_ignore: List[str] = list_field(default=[",", "?", ".", "!", "-", ";", ":", '""', "%", "'", '"', "�", "^", "/", "$"],
+        metadata={"help": "A list of characters to remove from the transcripts."},)
 
 
 @dataclass
@@ -193,7 +133,6 @@ class DataCollatorCTCWithPadding:
 
     def __call__(self, features: List[Dict[str, Union[List[int], torch.Tensor]]]) -> Dict[str, torch.Tensor]:
         # split inputs and labels since they have to be of different lenghts and need
-        # different padding methods
         input_features = [{"input_values": feature["input_values"]} for feature in features]
         label_features = [{"input_ids": feature["labels"]} for feature in features]
 
@@ -215,9 +154,7 @@ class DataCollatorCTCWithPadding:
 
         # replace padding with -100 to ignore loss correctly
         labels = labels_batch["input_ids"].masked_fill(labels_batch.attention_mask.ne(1), -100)
-
         batch["labels"] = labels
-
         return batch
 
 
@@ -270,14 +207,59 @@ class CTCTrainer(Trainer):
         return loss.detach()
 
 
+def speech_file_to_array_fn(batch):
+    speech_array, sampling_rate = torchaudio.load(batch["path"])
+    batch["speech"] = speech_array[0].numpy()
+    batch["sampling_rate"] = 16_000
+    batch["target_text"] = batch["sentence"]
+    return batch
+
+
+def prepare_dataset(batch):
+    # check that all files have the correct sampling rate
+    assert (
+            len(set(batch["sampling_rate"])) == 1
+    ), f"Make sure all inputs have the same sampling rate of {processor.feature_extractor.sampling_rate}."
+    batch["input_values"] = processor(batch["speech"], sampling_rate=batch["sampling_rate"][0]).input_values
+    # Setup the processor for targets
+    with processor.as_target_processor():
+        batch["labels"] = processor(batch["target_text"]).input_ids
+    return batch
+
+
+def compute_metrics(pred):
+    wer_metric = datasets.load_metric("wer")
+    cer_metric = datasets.load_metric("cer")
+    pred_logits = pred.predictions
+    pred_ids = np.argmax(pred_logits, axis=-1)
+    pred.label_ids[pred.label_ids == -100] = processor.tokenizer.pad_token_id
+    pred_str = processor.batch_decode(pred_ids)
+    # we do not want to group tokens when computing the metrics
+    label_str = processor.batch_decode(pred.label_ids, group_tokens=False)
+    logger.info("")
+    logger.info("***** REFERENCE (EVALUATION): ****")
+    logger.info(label_str[0:100])
+    logger.info("")
+    logger.info(" ***** PREDICTION (EVALUATION): *****")
+    logger.info(pred_str[0:100])
+    logger.info("")
+    wer = wer_metric.compute(predictions=pred_str, references=label_str)
+    cer = cer_metric.compute(predictions=pred_str, references=label_str)
+    return {"wer": wer, "cer": cer}
+
+
+def extract_all_chars(batch):
+    all_text = " ".join(batch["sentence"])
+    vocab = list(set(all_text))
+    return {"vocab": [vocab], "all_text": [all_text]}
+
+
 def main():
     # See all possible arguments in src/transformers/training_args.py # or by passing the --help flag to this script.
-    # We now keep distinct sets of args, for a cleaner separation of concerns.
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
-        # If we pass only one argument to the script and it's the path to a json file,
-        # let's parse it to get our arguments.
+        # If we pass only one argument to the script and it's the path to a json file,  let's parse it to get our arguments.
         model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
@@ -294,18 +276,13 @@ def main():
         if last_checkpoint is None and len(os.listdir(training_args.output_dir)) > 0:
             raise ValueError(
                 f"Output directory ({training_args.output_dir}) already exists and is not empty. "
-                "Use --overwrite_output_dir to overcome."
-            )
+                "Use --overwrite_output_dir to overcome.")
         elif last_checkpoint is not None:
             logger.info(
                 f"Checkpoint detected, resuming training at {last_checkpoint}. To avoid this behavior, change "
-                "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
-            )
+                "the `--output_dir` or add `--overwrite_output_dir` to train from scratch.")
 
-    logging.basicConfig(
-        format="%(message)s",
-        handlers=[logging.StreamHandler(sys.stdout)],
-    )
+    logging.basicConfig(format="%(message)s", handlers=[logging.StreamHandler(sys.stdout)],)
 
     logger.setLevel(logging.INFO if is_main_process(training_args.local_rank) else logging.WARN)
 
@@ -323,42 +300,40 @@ def main():
     set_seed(training_args.seed)
     random.seed(3)
 
+#################################################################################################################
     # Get the datasets:
-    df = pd.read_csv(data_args.dataset_config_name, delimiter=',')
-    df = df[~df["transcription"].isnull()]
+    df_train = pd.read_csv(data_args.dataset_config_name, delimiter=',')
+    df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
+    #df = df[~df["transcription"].isnull()]
 
     # FILTER DURATION
-    df["duration"] = (df["mark_end"] - df["mark_start"])
-    df = df[df["duration"] < 25000]
-    df = df.reset_index(drop=True)
+    #df["duration"] = (df["mark_end"] - df["mark_start"])
+    #df = df[df["duration"] < 25000]
+    #df = df.reset_index(drop=True)
 
     # REFORMAT AND SAVE
-    df = df[["transcription", "file_cut"]]
-    df.columns = ["sentence", "path"]
-    df["path"] = model_args.cache_dir + df["path"]
-    all_dataset = Dataset.from_pandas(df)
-    all_dataset.to_csv("dummy_dataset.csv")
+    df_train = df_train[["transcription", "file_cut"]]
+    df_train.columns = ["sentence", "path"]
+    df_train["path"] = model_args.cache_dir + df_train["path"]
+    df_test = df_test[["transcription", "file_cut"]]
+    df_test.columns = ["sentence", "path"]
+    df_test["path"] = model_args.cache_dir + df_test["path"]
+    #df = df[["transcription", "file_cut"]]
+    #df.columns = ["sentence", "path"]
+    #df["path"] = model_args.cache_dir + df["path"]
+    #all_dataset = Dataset.from_pandas(df)
+    #all_dataset.to_csv("dummy_dataset.csv")
 
     # SPLIT TRAIN-TEST
-    all_dataset = all_dataset.train_test_split(test_size=0.4)
-    train_dataset = all_dataset["train"]
-    eval_dataset = all_dataset["test"]
-    #dummy_dataset = all_dataset["test"]
-    #dummy_dataset = all_dataset.train_test_split(test_size=0.375)
-    #eval_dataset = dummy_dataset["train"]
-    #test_dataset = dummy_dataset["test"]
+    #all_dataset = all_dataset.train_test_split(test_size=0.4)
+    #train_dataset = all_dataset["train"]
+    #eval_dataset = all_dataset["test"]
+    train_dataset = Dataset.from_pandas(df_train)
+    eval_dataset = Dataset.from_pandas(df_test)
 
     #################################################################################################################
-
-    def extract_all_chars(batch):
-        all_text = " ".join(batch["sentence"])
-        vocab = list(set(all_text))
-        return {"vocab": [vocab], "all_text": [all_text]}
-
-    vocab_train = train_dataset.map(extract_all_chars, batched=True, batch_size=-1,
-                                    keep_in_memory=True, remove_columns=train_dataset.column_names)
-    vocab_test = eval_dataset.map(extract_all_chars, batched=True, batch_size=-1,
-                                  keep_in_memory=True, remove_columns=eval_dataset.column_names)
+    vocab_train = train_dataset.map(extract_all_chars, batched=True, batch_size=-1, keep_in_memory=True, remove_columns=train_dataset.column_names)
+    vocab_test = eval_dataset.map(extract_all_chars, batched=True, batch_size=-1, keep_in_memory=True, remove_columns=eval_dataset.column_names)
 
     vocab_list = list(set(vocab_train["vocab"][0]) | set(vocab_test["vocab"][0]))
     vocab_list.insert(0, "[UNK]")
@@ -371,10 +346,8 @@ def main():
         json.dump(vocab_dict, vocab_file)
 
     # Load pretrained model and tokenizer
-    tokenizer = Wav2Vec2CTCTokenizer(training_args.output_dir + "/vocab.json", unk_token="[UNK]", pad_token="[PAD]",
-                                     word_delimiter_token="|")
-    feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16_000, padding_value=0.0,
-                                                 do_normalize=True, return_attention_mask=True)
+    tokenizer = Wav2Vec2CTCTokenizer(training_args.output_dir + "/vocab.json", unk_token="[UNK]", pad_token="[PAD]", word_delimiter_token="|")
+    feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16_000, padding_value=0.0, do_normalize=True, return_attention_mask=True)
     processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
     model = Wav2Vec2ForCTC.from_pretrained(
         model_args.model_name_or_path,
@@ -398,78 +371,27 @@ def main():
     if data_args.max_val_samples is not (None or 0):
         eval_dataset = eval_dataset.select(range(data_args.max_val_samples))
 
-    #################################################################
-    # PREPARE AUDIOS ######################################################
 
-    # resampler = torchaudio.transforms.Resample(48_000, 16_000)
-    # Preprocessing the datasets.
-    # We need to read the aduio files as arrays and tokenize the targets.
-    def speech_file_to_array_fn(batch):
-        speech_array, sampling_rate = torchaudio.load(batch["path"])
-        batch["speech"] = speech_array[0].numpy()
-        batch["sampling_rate"] = 16_000
-        batch["target_text"] = batch["sentence"]
-        return batch
-
+    # PREPARE AUDIOS ##
     logger.info("LOADING AUDIOS")
     train_dataset = train_dataset.map(speech_file_to_array_fn, remove_columns=train_dataset.column_names)
     eval_dataset = eval_dataset.map(speech_file_to_array_fn, remove_columns=eval_dataset.column_names)
 
-    ##############################################
-    # Prepare data for training ##################
-    def prepare_dataset(batch):
-        # check that all files have the correct sampling rate
-        assert (
-                len(set(batch["sampling_rate"])) == 1
-        ), f"Make sure all inputs have the same sampling rate of {processor.feature_extractor.sampling_rate}."
-        batch["input_values"] = processor(batch["speech"], sampling_rate=batch["sampling_rate"][0]).input_values
-        # Setup the processor for targets
-        with processor.as_target_processor():
-            batch["labels"] = processor(batch["target_text"]).input_ids
-        return batch
-
     logger.info("JUST BEFORE TRAINING")
-    train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names,
-                                      batch_size=training_args.per_device_train_batch_size, batched=True,
-                                      )
-    eval_dataset = eval_dataset.map(prepare_dataset, remove_columns=eval_dataset.column_names,
-                                    batch_size=training_args.per_device_train_batch_size, batched=True,
-                                    )
+    train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
+    eval_dataset = eval_dataset.map(prepare_dataset, remove_columns=eval_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
 
     ## Speed Augment
     # train_dataset11 = train_dataset.map(speed11, num_proc=data_args.preprocessing_num_workers)
     # train_dataset09 = train_dataset.map(speed09, num_proc=data_args.preprocessing_num_workers)
     # train_dataset = datasets.concatenate_datasets([train_dataset, train_dataset09, train_dataset11])
 
-    # Metric
-    wer_metric = datasets.load_metric("wer")
-    cer_metric = datasets.load_metric("cer")
 
-    def compute_metrics(pred):
-        pred_logits = pred.predictions
-        pred_ids = np.argmax(pred_logits, axis=-1)
-        pred.label_ids[pred.label_ids == -100] = processor.tokenizer.pad_token_id
-        pred_str = processor.batch_decode(pred_ids)
-        # we do not want to group tokens when computing the metrics
-        label_str = processor.batch_decode(pred.label_ids, group_tokens=False)
-        logger.info("")
-        logger.info("***** REFERENCE (EVALUATION): ****")
-        logger.info(label_str[0:100])
-        logger.info("")
-        logger.info(" ***** PREDICTION (EVALUATION): *****")
-        logger.info(pred_str[0:100])
-        logger.info("")
-        wer = wer_metric.compute(predictions=pred_str, references=label_str)
-        cer = cer_metric.compute(predictions=pred_str, references=label_str)
-        return {"wer": wer, "cer": cer}
-
+    ## PREPARE TRAINING ##---------------------------------------
     if model_args.freeze_feature_extractor:
         model.freeze_feature_extractor()
 
-    # Data collator
     data_collator = DataCollatorCTCWithPadding(processor=processor, padding=True)
-
-    # Initialize our Trainer
     trainer = CTCTrainer(
         model=model,
         data_collator=data_collator,
@@ -480,7 +402,7 @@ def main():
         tokenizer=processor.feature_extractor,
     )
 
-    # Training
+    # START TRAINING ##---------------------------------------------
     if training_args.do_train:
         if last_checkpoint is not None:
             checkpoint = last_checkpoint
@@ -496,22 +418,21 @@ def main():
             processor.save_pretrained(training_args.output_dir)
 
         metrics = train_result.metrics
-        max_train_samples = (
-            data_args.max_train_samples if data_args.max_train_samples is not None else len(train_dataset))
+        max_train_samples = (data_args.max_train_samples if data_args.max_train_samples is not None else len(train_dataset))
         metrics["train_samples"] = min(max_train_samples, len(train_dataset))
 
         trainer.log_metrics("train", metrics)
         trainer.save_metrics("train", metrics)
         trainer.save_state()
 
-    # Evaluation
+
+    # DO EVALUATION ##---------------------------------------------------
     results = {}
     if training_args.do_eval:
-        logger.info("*** Evaluate ***")
+        logger.info("******** Evaluate ********")
         metrics = trainer.evaluate()
         max_val_samples = data_args.max_val_samples if data_args.max_val_samples is not None else len(eval_dataset)
         metrics["eval_samples"] = min(max_val_samples, len(eval_dataset))
-
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
 
