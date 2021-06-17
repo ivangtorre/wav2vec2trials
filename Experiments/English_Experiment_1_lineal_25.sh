@@ -12,7 +12,7 @@ MODEL_DIR=${6:-${MODEL_DIR:-"/datasets/modelxlsr"}}
 NUM_GPUS=${7:-${NUM_GPUS:-1}}
 EPOCHS=${9:-${EPOCHS:-10}}
 SEED=${10:-${SEED:-6}}
-BATCH_SIZE=${11:-${BATCH_SIZE:-8}} # original 16
+BATCH_SIZE=${11:-${BATCH_SIZE:-1}} # original 16
 LEARNING_RATE=${12:-${LEARNING_RATE:-"0.0002"}}
 WARMUP_RATIO=${13:-${WARMUP_RATIO:-"0.1"}}
 SAVE_STATES=${14:-${SAVE_STATES:-50}}
@@ -27,7 +27,7 @@ HIDDEN_DROPOUT=${22:-${HIDDEN_DROPOUT:-0.025}}
 ACTIVATION_DROPOUT=${23:-${ACTIVATION_DROPOUT:-0.026}}
 ATTENTION_DROPOUT=${24:-${ATTENTION_DROPOUT:-0.036}}
 LR_TYPE=${25:-${LR_TYPE:-"linear"}}
-MAX_TRAIN_SAMPLES=${27:-${MAX_TRAIN_SAMPLES:-3172}}  # Set to 0 for using all dataset
+MAX_TRAIN_SAMPLES=${27:-${MAX_TRAIN_SAMPLES:-3174}}  # Set to 0 for using all dataset
 MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-100}}  # Set to 0 for using all dataset
 ######################################################
 
