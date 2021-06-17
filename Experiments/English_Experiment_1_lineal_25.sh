@@ -27,8 +27,8 @@ HIDDEN_DROPOUT=${22:-${HIDDEN_DROPOUT:-0.025}}
 ACTIVATION_DROPOUT=${23:-${ACTIVATION_DROPOUT:-0.026}}
 ATTENTION_DROPOUT=${24:-${ATTENTION_DROPOUT:-0.036}}
 LR_TYPE=${25:-${LR_TYPE:-"linear"}}
-MAX_TRAIN_SAMPLES=${27:-${MAX_TRAIN_SAMPLES:-100}}  # Set to 0 for using all dataset
-MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-100}}  # Set to 0 for using all dataset
+MAX_TRAIN_SAMPLES=${27:-${MAX_TRAIN_SAMPLES:-0}}  # Set to 0 for using all dataset
+MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-0}}  # Set to 0 for using all dataset
 ######################################################
 
 
@@ -72,12 +72,10 @@ CMD+=" --max_train_samples=$MAX_TRAIN_SAMPLES"
 CMD+=" --max_val_samples=$MAX_VAL_SAMPLES"
 
 
-
- export GBS=$(expr $BATCH_SIZE \* $NUM_GPUS)
- printf -v TAG "wav2vec2_train_benchmark_amp-%s_gbs%d" "$AMP" $GBS
- LOGFILE=$RESULT_DIR/$TAG.$DATESTAMP.log
- printf "Logs written to %s\n" "$LOGFILE"
-
+export GBS=$(expr $BATCH_SIZE \* $NUM_GPUS)
+printf -v TAG "wav2vec2_train_benchmark_amp-%s_gbs%d" "$AMP" $GBS
+LOGFILE=$RESULT_DIR/$TAG.$DATESTAMP.log
+printf "Logs written to %s\n" "$LOGFILE"
 
 
 set -x

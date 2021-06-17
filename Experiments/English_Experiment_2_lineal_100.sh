@@ -72,12 +72,10 @@ CMD+=" --max_train_samples=$MAX_TRAIN_SAMPLES"
 CMD+=" --max_val_samples=$MAX_VAL_SAMPLES"
 
 
-
- export GBS=$(expr $BATCH_SIZE \* $NUM_GPUS)
- printf -v TAG "wav2vec2_train_benchmark_amp-%s_gbs%d" "$AMP" $GBS
- LOGFILE=$RESULT_DIR/$TAG.$DATESTAMP.log
- printf "Logs written to %s\n" "$LOGFILE"
-
+export GBS=$(expr $BATCH_SIZE \* $NUM_GPUS)
+printf -v TAG "wav2vec2_train_benchmark_amp-%s_gbs%d" "$AMP" $GBS
+LOGFILE=$RESULT_DIR/$TAG.$DATESTAMP.log
+printf "Logs written to %s\n" "$LOGFILE"
 
 
 set -x
