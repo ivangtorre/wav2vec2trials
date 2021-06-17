@@ -33,7 +33,7 @@ RUN pip3 install datasets && \
     pip3 install jiwer && \
     pip3 install lang-trans && \
     pip3 install librosa && \
-    pip3 install wandb && \
+#    pip3 install wandb && \
     pip3 install unidecode && \
     pip3 install soundfile
 
