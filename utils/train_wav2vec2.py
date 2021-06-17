@@ -215,17 +215,6 @@ def speech_file_to_array_fn(batch):
     return batch
 
 
-def prepare_dataset(batch):
-    # check that all files have the correct sampling rate
-    assert (
-            len(set(batch["sampling_rate"])) == 1
-    ), f"Make sure all inputs have the same sampling rate of {processor.feature_extractor.sampling_rate}."
-    batch["input_values"] = processor(batch["speech"], sampling_rate=batch["sampling_rate"][0]).input_values
-    # Setup the processor for targets
-    with processor.as_target_processor():
-        batch["labels"] = processor(batch["target_text"]).input_ids
-    return batch
-
 
 def compute_metrics(pred):
     wer_metric = datasets.load_metric("wer")
@@ -304,6 +293,8 @@ def main():
     # Get the datasets:
     df_train = pd.read_csv(data_args.dataset_config_name, delimiter=',')
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
+
+
     df_train = df_train[~df_train["transcription"].isnull()]
     df_test = df_test[~df_test["transcription"].isnull()]
     df_train = df_train.reset_index(drop=True)
@@ -379,6 +370,17 @@ def main():
     logger.info("LOADING AUDIOS")
     train_dataset = train_dataset.map(speech_file_to_array_fn, remove_columns=train_dataset.column_names)
     eval_dataset = eval_dataset.map(speech_file_to_array_fn, remove_columns=eval_dataset.column_names)
+
+    def prepare_dataset(batch):
+        # check that all files have the correct sampling rate
+        assert (
+                len(set(batch["sampling_rate"])) == 1
+        ), f"Make sure all inputs have the same sampling rate of {processor.feature_extractor.sampling_rate}."
+        batch["input_values"] = processor(batch["speech"], sampling_rate=batch["sampling_rate"][0]).input_values
+        # Setup the processor for targets
+        with processor.as_target_processor():
+            batch["labels"] = processor(batch["target_text"]).input_ids
+        return batch
 
     logger.info("JUST BEFORE TRAINING")
     train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
