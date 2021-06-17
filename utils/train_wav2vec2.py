@@ -271,7 +271,7 @@ def main():
     df_train = df_train[~df_train["transcription"].isnull()]
     df_test = df_test[~df_test["transcription"].isnull()]
 
-    eliminar = pd.read_csv("eliminar.csv", ",", header=None)[0].values.tolist()
+    eliminar = pd.read_csv("../eliminar.csv", ",", header=None)[0].values.tolist()
     for item in eliminar:
         df_train = df_train[~df_train["file_cut"].str.contains(item)]
         df_test = df_test[~df_train["file_cut"].str.contains(item)]
