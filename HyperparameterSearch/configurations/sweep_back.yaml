@@ -1,0 +1,95 @@
+program: main/train_wav2vec2_sweep.py
+project: wav2vec2aphasia
+method: random
+metric:
+  name: test/wer
+  goal: minimize
+parameters:
+  attention_dropout:
+    distribution: log_uniform
+    # from 0.1/5 to 0.1*5 - values provided are ln(min) -> ln(max)
+    min: -3.9
+    max: -0.7
+  activation_dropout:
+    distribution: log_uniform
+    min: -3.9
+    max: -1.9
+  hidden_dropout:
+    distribution: log_uniform
+    min: -3.9
+    max: -1.9
+  feat_proj_dropout:
+    distribution: log_uniform
+    min: -3.9
+    max: -0.7
+  mask_time_prob:
+    distribution: log_uniform
+    min: -3.9
+    max: -1.6
+  layerdrop:
+    distribution: log_uniform
+    # from 0.05/2 to 0.05*2 - values provided are ln(min) -> ln(max)
+    min: -4.6
+    max: -1.6
+  learning_rate:
+    distribution: log_uniform
+    min: -9.2
+    max: -6.9
+  gradient_accumulation_steps:
+    values:
+    - 2
+    - 4
+command:
+  - python3
+  - "-m"
+  - "torch.distributed.launch"
+  - "--nproc_per_node"
+  - 4
+  - "--nnodes"
+  - 1
+  - "--node_rank"
+  - 0
+  - ${program}
+  - "--model_name_or_path"
+  - "facebook/wav2vec2-large-xlsr-53"
+  - "--dataset_config_name"
+  - "df_final.csv"
+  - "--output_dir"
+  - "results"
+  - "--overwrite_output_dir"
+  - "--num_train_epochs"
+  - 3
+  - "--per_device_train_batch_size"
+  - 8
+  - "--warmup_ratio"
+  - 0.1
+  - "--lr_scheduler_type"
+  - "linear"
+  - "--evaluation_strategy"
+  - "steps"
+  - "--save_steps"
+  - 5000
+  - "--eval_steps"
+  - 5000
+  - "--logging_steps"
+  - 1000
+  - "--save_total_limit"
+  - 2
+  - "--freeze_feature_extractor"
+  - "--gradient_checkpointing"
+  - "--fp16"
+  - "--do_train"
+  - "--do_eval"
+  - "--cache_dir"
+  - "/home/VICOMTECH/igonzalez/APHASIA/audiosV3/"
+  - "--model_cache_dir"
+  - "/datasets/modelxlsr"
+  - "--logging_dir"
+  - "/results"
+  - "--preprocessing_num_workers"
+  - 10
+  - "--max_train_samples"
+  - 500
+  - "--max_val_samples"
+  - 10
+  - ${args}
