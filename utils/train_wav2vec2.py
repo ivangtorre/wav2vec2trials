@@ -353,8 +353,8 @@ def main():
 
     # PREPARE AUDIOS ##
     logger.info("LOADING AUDIOS")
-    train_dataset = train_dataset.map(speech_file_to_array_fn)#, remove_columns=train_dataset.column_names)
-    eval_dataset = eval_dataset.map(speech_file_to_array_fn)#, remove_columns=eval_dataset.column_names)
+    train_dataset = train_dataset.map(speech_file_to_array_fn, remove_columns=train_dataset.column_names)
+    eval_dataset = eval_dataset.map(speech_file_to_array_fn, remove_columns=eval_dataset.column_names)
 
     def prepare_dataset(batch):
         print(batch["path"])
@@ -391,7 +391,7 @@ def main():
 
     logger.info("JUST BEFORE TRAINING")
     train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
-    #eval_dataset = eval_dataset.map(prepare_dataset, remove_columns=eval_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
+    eval_dataset = eval_dataset.map(prepare_dataset, remove_columns=eval_dataset.column_names, batch_size=training_args.per_device_train_batch_size, batched=True,)
 
     ## Speed Augment
     # train_dataset11 = train_dataset.map(speed11, num_proc=data_args.preprocessing_num_workers)
