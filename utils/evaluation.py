@@ -79,7 +79,10 @@ def main(args):
     result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
     result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
     result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8)
-
+    print("")
+    print("")
+    print("")
+    print("")
     print("************************")
     print("MILD TEST:")
     print("WER: {:2f}".format(100 * wer.compute(predictions=result_mild["pred_strings"], references=result_mild["target_text"])))
