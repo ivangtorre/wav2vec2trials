@@ -5,6 +5,8 @@ import pandas as pd
 from dataclasses import dataclass, field
 from transformers import HfArgumentParser, Wav2Vec2ForCTC, Wav2Vec2Processor
 from datasets import Dataset, load_metric
+import argparse
+
 
 def load_test(path, args):
     df = pd.read_csv(path, delimiter=',')
@@ -30,26 +32,18 @@ def speech_file_to_array_fn(batch):
     return batch
 
 
-@dataclass
-class ModelArguments:
-    """
-    Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
-    """
-    model_path: str = field(metadata={"help": "Path to pretrained model"})
-    cache_dir: str = field(metadata={"help": "where audios are stored"})
-    test_mild: str = field(metadata={"help": "test file csv"})
-    test_moderate: str = field(metadata={"help": "test file csv"})
-    test_severe: str = field(metadata={"help": "test file csv"})
-    test_vsevere: str = field(metadata={"help": "test file csv"})
+def parse_args():
+    parser = argparse.ArgumentParser(description='Jasper')
+    parser.add_argument("--model_path", type=str, required=True, help='Path to pretrained model')
+    parser.add_argument("--cache_dir", type=str, required=True, help='where audios are stored')
+    parser.add_argument("--test_mild", type=str, required=True, help='test file csv')
+    parser.add_argument("--test_moderate", type=str, required=True, help='test file csv')
+    parser.add_argument("--test_severe", type=str, required=True, help='test file csv')
+    parser.add_argument("--test_vsevere", type=str, required=True, help='test file csv')
+    return parser.parse_args()
 
 
-def main():
-    parser = HfArgumentParser((ModelArguments))
-    model_args = parser.parse_args_into_dataclasses()
-
-    print(model_args)
-    print(model_args.cache_dir)
-
+def main(args):
     # LOAD DATA
     mild_dataset = load_test(args.test_mild, args)
     moderate_dataset = load_test(args.test_mild, args)
@@ -82,4 +76,5 @@ def main():
     print("WER: {:2f}".format(100 * wer.compute(predictions=result["pred_strings"], references=result["target_text"])))
 
 if __name__ == "__main__":
-    main()
+    args = parse_args()
+    main(args)
