@@ -46,9 +46,9 @@ def parse_args():
 
 def main(args):
     # LOAD DATA
-    mild_dataset = load_test(args.test_mild, args)
-    moderate_dataset = load_test(args.test_moderate, args)
-    severe_dataset = load_test(args.test_severe, args)
+    #mild_dataset = load_test(args.test_mild, args)
+    #moderate_dataset = load_test(args.test_moderate, args)
+    #severe_dataset = load_test(args.test_severe, args)
     vsevere_dataset = load_test(args.test_vsevere, args)
 
     # LOAD MODEL
@@ -57,9 +57,9 @@ def main(args):
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
     model.to("cuda")
 
-    mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
-    moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
-    severe_dataset = severe_dataset.map(speech_file_to_array_fn, remove_columns=severe_dataset.column_names, num_proc=args.num_proc)
+    #mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
+    #moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
+    #severe_dataset = severe_dataset.map(speech_file_to_array_fn, remove_columns=severe_dataset.column_names, num_proc=args.num_proc)
     vsevere_dataset = vsevere_dataset.map(speech_file_to_array_fn, remove_columns=vsevere_dataset.column_names, num_proc=args.num_proc)
 
     # EVALUATE
@@ -71,24 +71,28 @@ def main(args):
         batch["pred_strings"] = processor.batch_decode(pred_ids)
         return batch
 
-    result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
-    result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
-    result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
+    #result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
+    #result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
+    #result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
     result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8)
 
     print("************************")
     print("MILD TEST:")
-    print("WER: {:2f}".format(100 * wer.compute(predictions=result_mild["pred_strings"], references=result_mild["target_text"])))
+    #print("WER: {:2f}".format(100 * wer.compute(predictions=result_mild["pred_strings"], references=result_mild["target_text"])))
     print("")
     print("MODERATE TEST:")
-    print("WER: {:2f}".format(100 * wer.compute(predictions=result_moderate["pred_strings"], references=result_moderate["target_text"])))
+    #print("WER: {:2f}".format(100 * wer.compute(predictions=result_moderate["pred_strings"], references=result_moderate["target_text"])))
     print("")
     print("SEVERE TEST:")
-    print("WER: {:2f}".format(100 * wer.compute(predictions=result_severe["pred_strings"], references=result_severe["target_text"])))
+    #print("WER: {:2f}".format(100 * wer.compute(predictions=result_severe["pred_strings"], references=result_severe["target_text"])))
     print("")
     print("VERY SEVERE TEST:")
     print("WER: {:2f}".format(100 * wer.compute(predictions=result_vsevere["pred_strings"], references=result_vsevere["target_text"])))
     print("************************")
+
+    print(result_vsevere["pred_strings"])
+    print(result_vsevere["target_text"])
+
 
 if __name__ == "__main__":
     args = parse_args()
