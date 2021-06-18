@@ -4,10 +4,10 @@
 ##### PARAMETERS ##################################
 MODEL_PATH=${1:-${MODEL_PATH:-"~/APHASIA/wav2vec2Aphasia/results/english.-EPOCH-5.LR_TYPE-linear.-21-06-17.20.58.47/checkpoint-9000"}}  # The folder where audios are stored
 DATA_DIR=${2:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/data/"}}  # The folder where audios are stored
-TEST_MILD=${3:-${TEST_MILD:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_mild.csv"})
-TEST_MODERATE=${4:-${TEST_MODERATE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_moderate.csv"})
-TEST_SEVERE=${5:-${TEST_SEVERE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_severe.csv"})
-TEST_VSEVERE=${6:-${TEST_VSEVERE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_very_severe.csv"})
+TEST_MILD=${3:-${TEST_MILD:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_mild.csv"}}
+TEST_MODERATE=${4:-${TEST_MODERATE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_moderate.csv"}}
+TEST_SEVERE=${5:-${TEST_SEVERE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_severe.csv"}}
+TEST_VSEVERE=${6:-${TEST_VSEVERE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_very_severe.csv"}}
 ######################################################
 
 
