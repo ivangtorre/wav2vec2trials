@@ -76,8 +76,6 @@ def main(args):
 
         return batch
 
-    result = test_dataset.map(evaluate, batched=True, batch_size=8)
-
     #result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
     #result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
     #result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
