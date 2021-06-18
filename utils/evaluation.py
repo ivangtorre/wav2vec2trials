@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 from transformers import HfArgumentParser, Wav2Vec2ForCTC, Wav2Vec2Processor
 from datasets import Dataset, load_metric
 
-
 def load_test(path, args):
     df = pd.read_csv(path, delimiter=',')
     df = df[~df["transcription"].isnull()]
@@ -37,7 +36,7 @@ class ModelArguments:
     Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
     """
     model_path: str = field(metadata={"help": "Path to pretrained model"})
-    cache_dir: Optional[str] = field(default=True, metadata={"help": "where audios are stored"})
+    cache_dir: str = field(metadata={"help": "where audios are stored"})
     test_mild: str = field(metadata={"help": "test file csv"})
     test_moderate: str = field(metadata={"help": "test file csv"})
     test_severe: str = field(metadata={"help": "test file csv"})
