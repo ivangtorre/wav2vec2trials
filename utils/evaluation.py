@@ -54,6 +54,7 @@ def main(args):
     wer = load_metric("wer")
     print(os.getcwd())
     print(os.listdir("results/english.-EPOCH-5.LR_TYPE-linear.-21-06-17.20.58.47/checkpoint-9000"))
+    print(args.model_path)
     processor = Wav2Vec2Processor.from_pretrained(args.model_path)
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
     model.to("cuda")
