@@ -6,6 +6,7 @@ import os
 from transformers import HfArgumentParser, Wav2Vec2ForCTC, Wav2Vec2Processor
 from datasets import Dataset, load_metric
 import argparse
+import numpy as np
 
 
 def load_test(path, args):
@@ -67,11 +68,15 @@ def main(args):
         inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt", padding=True)
         with torch.no_grad():
             logits = model(inputs.input_values.to("cuda"), attention_mask=inputs.attention_mask.to("cuda")).logits
-            pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
+            #pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
+            pred_ids = np.argmax(logits, axis=-1)
         batch["pred_strings"] = processor.batch_decode(pred_ids)
+
+
+
         return batch
 
-
+    result = test_dataset.map(evaluate, batched=True, batch_size=8)
 
     #result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
     #result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
