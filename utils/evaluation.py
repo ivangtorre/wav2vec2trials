@@ -55,7 +55,7 @@ def main(args):
     wer = load_metric("wer")
     processor = Wav2Vec2Processor.from_pretrained(args.model_path)
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
-    model.to("cuda")
+#    model.to("cuda")
 
     #mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
     #moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
@@ -64,12 +64,14 @@ def main(args):
 
     # EVALUATE
     def evaluate(batch):
-        inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt", padding=True)
+        inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt")#, padding=True)
         with torch.no_grad():
             logits = model(inputs.input_values.to("cuda"), attention_mask=inputs.attention_mask.to("cuda")).logits
             pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
-        batch["pred_strings"] = processor.batch_decode(pred_ids)
+        batch["pred_strings"] = processor.batch_decode(pred_ids)[0]
         return batch
+
+
 
     #result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
     #result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
