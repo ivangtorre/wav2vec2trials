@@ -55,7 +55,7 @@ def main(args):
     wer = load_metric("wer")
     processor = Wav2Vec2Processor.from_pretrained(args.model_path)
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
-#    model.to("cuda")
+    model.to("cuda")
 
     #mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
     #moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
