@@ -52,7 +52,7 @@ def main(args):
 
     # LOAD MODEL
     wer = load_metric("wer")
-
+    print(os.getcwd())
     print(os.listdir(args.model_path))
     processor = Wav2Vec2Processor.from_pretrained(args.model_path)
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
