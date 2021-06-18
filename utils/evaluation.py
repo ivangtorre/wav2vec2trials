@@ -2,7 +2,7 @@ import torch
 import torchaudio
 from typing import Optional
 import pandas as pd
-from dataclasses import dataclass, field
+import os
 from transformers import HfArgumentParser, Wav2Vec2ForCTC, Wav2Vec2Processor
 from datasets import Dataset, load_metric
 import argparse
@@ -52,7 +52,8 @@ def main(args):
 
     # LOAD MODEL
     wer = load_metric("wer")
-    print(args.model_path)
+
+    print(os.listdir(args.model_path))
     processor = Wav2Vec2Processor.from_pretrained(args.model_path)
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
     model.to("cuda")
