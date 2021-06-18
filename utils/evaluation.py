@@ -44,7 +44,7 @@ class ModelArguments:
 
 
 def main():
-    parser = HfArgumentParser(ModelArguments)
+    parser = HfArgumentParser((ModelArguments))
     args = parser.parse_args_into_dataclasses()
     print(args)
 
