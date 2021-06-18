@@ -64,7 +64,7 @@ def main(args):
 
     # EVALUATE
     def evaluate(batch):
-        inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt")#, padding=True)
+        inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt", padding=True)
         with torch.no_grad():
             logits = model(inputs.input_values.to("cuda"), attention_mask=inputs.attention_mask.to("cuda")).logits
             pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
