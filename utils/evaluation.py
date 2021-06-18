@@ -46,9 +46,9 @@ def parse_args():
 def main(args):
     # LOAD DATA
     mild_dataset = load_test(args.test_mild, args)
-    moderate_dataset = load_test(args.test_mild, args)
-    severe_dataset = load_test(args.test_mild, args)
-    vsevere_dataset = load_test(args.test_mild, args)
+    moderate_dataset = load_test(args.test_moderate, args)
+    severe_dataset = load_test(args.test_severe, args)
+    vsevere_dataset = load_test(args.test_vsevere, args)
 
     # LOAD MODEL
     wer = load_metric("wer")
