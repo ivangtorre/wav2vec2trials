@@ -65,17 +65,16 @@ def main(args):
     # EVALUATE
     def evaluate(batch):
         inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt", padding=True)
-
         with torch.no_grad():
             logits = model(inputs.input_values.to("cuda"), attention_mask=inputs.attention_mask.to("cuda")).logits
             pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
         batch["pred_strings"] = processor.batch_decode(pred_ids)
         return batch
 
-    result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
-    result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
-    result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
-    result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
+    result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
+    result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
+    result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
+    result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8)
 
     print("************************")
     print("MILD TEST:")
