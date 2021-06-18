@@ -12,7 +12,7 @@ TEST_VSEVERE=${6:-${TEST_VSEVERE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english
 
 
 CMD="python3 utils/evaluation.py"
-CMD+=" --model_path=$MODELXLSR"
+CMD+=" --model_path=$MODEL_PATH"
 CMD+=" --cache_dir=$DATA_DIR"
 CMD+=" --test_mild=$TEST_MILD"
 CMD+=" --test_moderate=$TEST_MODERATE"
