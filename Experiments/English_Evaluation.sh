@@ -19,6 +19,4 @@ CMD+=" --test_moderate=$TEST_MODERATE"
 CMD+=" --test_severe=$TEST_SEVERE"
 CMD+=" --test_vsevere=$TEST_VSEVERE"
 
-
-
 $CMD
