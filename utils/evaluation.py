@@ -68,8 +68,8 @@ def main(args):
         inputs = processor(batch["speech"], sampling_rate=16_000, return_tensors="pt", padding=True)
         with torch.no_grad():
             logits = model(inputs.input_values.to("cuda"), attention_mask=inputs.attention_mask.to("cuda")).logits
-            #pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
-            pred_ids = np.argmax(logits, axis=-1)
+            pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
+            #pred_ids = np.argmax(logits, axis=-1)
         batch["pred_strings"] = processor.batch_decode(pred_ids)
 
 
