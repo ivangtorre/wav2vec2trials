@@ -21,6 +21,4 @@ CMD+=" --test_vsevere=$TEST_VSEVERE"
 
 
 
-set -x
 $CMD
-set +x
