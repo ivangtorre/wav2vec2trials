@@ -2,7 +2,7 @@
 
 
 ##### PARAMETERS ##################################
-MODEL_PATH=${1:-${MODEL_PATH:-"/results/english.-EPOCH-5.LR_TYPE-linear.-21-06-17.20.58.47/checkpoint-9000/"}}
+MODEL_PATH=${1:-${MODEL_PATH:-"results/english.-EPOCH-5.LR_TYPE-linear.-21-06-17.20.58.47/checkpoint-9000/"}}
 DATA_DIR=${2:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/data/"}}
 TEST_MILD=${3:-${TEST_MILD:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_mild.csv"}}
 TEST_MODERATE=${4:-${TEST_MODERATE:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_06_17/df_test_moderate.csv"}}
