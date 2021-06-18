@@ -75,27 +75,27 @@ def main(args):
 
         return batch
 
-    #result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
-    #result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
-    #result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
+    result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
+    result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
+    result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
     result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8)
 
     print("************************")
     print("MILD TEST:")
-    #print("WER: {:2f}".format(100 * wer.compute(predictions=result_mild["pred_strings"], references=result_mild["target_text"])))
+    print("WER: {:2f}".format(100 * wer.compute(predictions=result_mild["pred_strings"], references=result_mild["target_text"])))
     print("")
     print("MODERATE TEST:")
-    #print("WER: {:2f}".format(100 * wer.compute(predictions=result_moderate["pred_strings"], references=result_moderate["target_text"])))
+    print("WER: {:2f}".format(100 * wer.compute(predictions=result_moderate["pred_strings"], references=result_moderate["target_text"])))
     print("")
     print("SEVERE TEST:")
-    #print("WER: {:2f}".format(100 * wer.compute(predictions=result_severe["pred_strings"], references=result_severe["target_text"])))
+    print("WER: {:2f}".format(100 * wer.compute(predictions=result_severe["pred_strings"], references=result_severe["target_text"])))
     print("")
     print("VERY SEVERE TEST:")
     print("WER: {:2f}".format(100 * wer.compute(predictions=result_vsevere["pred_strings"], references=result_vsevere["target_text"])))
     print("************************")
 
-    print(result_vsevere["pred_strings"])
-    print(result_vsevere["target_text"])
+    #print(result_vsevere["pred_strings"])
+    #print(result_vsevere["target_text"])
 
 
 if __name__ == "__main__":
