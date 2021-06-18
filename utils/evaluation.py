@@ -77,3 +77,6 @@ def main():
     result = mild_dataset.map(evaluate, batched=True, batch_size=8)
 
     print("WER: {:2f}".format(100 * wer.compute(predictions=result["pred_strings"], references=result["target_text"])))
+
+if __name__ == "__main__":
+    main()
