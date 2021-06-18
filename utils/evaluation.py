@@ -48,7 +48,7 @@ def main():
     model_args = parser.parse_args_into_dataclasses()
 
     print(model_args)
-    print(model_args.model_path)
+    print(model_args.cache_dir)
 
     # LOAD DATA
     mild_dataset = load_test(args.test_mild, args)
