@@ -52,6 +52,7 @@ def main(args):
 
     # LOAD MODEL
     wer = load_metric("wer")
+    print(args.model_path)
     processor = Wav2Vec2Processor.from_pretrained(args.model_path)
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
     model.to("cuda")
