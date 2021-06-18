@@ -40,6 +40,7 @@ def parse_args():
     parser.add_argument("--test_moderate", type=str, required=True, help='test file csv')
     parser.add_argument("--test_severe", type=str, required=True, help='test file csv')
     parser.add_argument("--test_vsevere", type=str, required=True, help='test file csv')
+    parser.add_argument("--num_proc", default=1, type=int, required=True, help='Number of processors')
     return parser.parse_args()
 
 
@@ -56,10 +57,10 @@ def main(args):
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
     model.to("cuda")
 
-    mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names)
-    moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names)
-    severe_dataset = severe_dataset.map(speech_file_to_array_fn, remove_columns=severe_dataset.column_names)
-    vsevere_dataset = vsevere_dataset.map(speech_file_to_array_fn, remove_columns=vsevere_dataset.column_names)
+    mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
+    moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
+    severe_dataset = severe_dataset.map(speech_file_to_array_fn, remove_columns=severe_dataset.column_names, num_proc=args.num_proc)
+    vsevere_dataset = vsevere_dataset.map(speech_file_to_array_fn, remove_columns=vsevere_dataset.column_names, num_proc=args.num_proc)
 
     # EVALUATE
     def evaluate(batch):
@@ -71,10 +72,10 @@ def main(args):
         batch["pred_strings"] = processor.batch_decode(pred_ids)
         return batch
 
-    result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8)
-    result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8)
-    result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8)
-    result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8)
+    result_mild = mild_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
+    result_moderate = moderate_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
+    result_severe = severe_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
+    result_vsevere = vsevere_dataset.map(evaluate, batched=True, batch_size=8, num_proc=args.num_proc)
 
     print("************************")
     print("MILD TEST:")
