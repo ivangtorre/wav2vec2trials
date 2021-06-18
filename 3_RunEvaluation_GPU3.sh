@@ -27,7 +27,7 @@ fi
 
 # Run the container
 set -x
-nvidia-docker run -it -d --rm --name ${CONTAINER} --runtime=nvidia --shm-size=4g --ulimit memlock=-1 --ulimit stack=67108864 -v /data/:/data/:ro -v /home:/home -v $PWD:. ${NAME}
+nvidia-docker run -it -d --rm --name ${CONTAINER} --runtime=nvidia --shm-size=4g --ulimit memlock=-1 --ulimit stack=67108864 -v /data/:/data/:ro -v /home:/home -v $PWD:/home/VICOMTECH/igonzalez/APHASIA/wav2vec2Aphasia ${NAME}
 set +x
 
 # Execute
