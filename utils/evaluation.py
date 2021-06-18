@@ -47,9 +47,9 @@ def parse_args():
 
 def main(args):
     # LOAD DATA
-    #mild_dataset = load_test(args.test_mild, args)
-    #moderate_dataset = load_test(args.test_moderate, args)
-    #severe_dataset = load_test(args.test_severe, args)
+    mild_dataset = load_test(args.test_mild, args)
+    moderate_dataset = load_test(args.test_moderate, args)
+    severe_dataset = load_test(args.test_severe, args)
     vsevere_dataset = load_test(args.test_vsevere, args)
 
     # LOAD MODEL
@@ -58,9 +58,9 @@ def main(args):
     model = Wav2Vec2ForCTC.from_pretrained(args.model_path)
     model.to("cuda")
 
-    #mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
-    #moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
-    #severe_dataset = severe_dataset.map(speech_file_to_array_fn, remove_columns=severe_dataset.column_names, num_proc=args.num_proc)
+    mild_dataset = mild_dataset.map(speech_file_to_array_fn, remove_columns=mild_dataset.column_names, num_proc=args.num_proc)
+    moderate_dataset = moderate_dataset.map(speech_file_to_array_fn, remove_columns=moderate_dataset.column_names, num_proc=args.num_proc)
+    severe_dataset = severe_dataset.map(speech_file_to_array_fn, remove_columns=severe_dataset.column_names, num_proc=args.num_proc)
     vsevere_dataset = vsevere_dataset.map(speech_file_to_array_fn, remove_columns=vsevere_dataset.column_names, num_proc=args.num_proc)
 
     # EVALUATE
@@ -69,7 +69,6 @@ def main(args):
         with torch.no_grad():
             logits = model(inputs.input_values.to("cuda"), attention_mask=inputs.attention_mask.to("cuda")).logits
             pred_ids = torch.argmax(logits, dim=-1)  # GREEDY
-            #pred_ids = np.argmax(logits, axis=-1)
         batch["pred_strings"] = processor.batch_decode(pred_ids)
 
 
