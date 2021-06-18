@@ -46,6 +46,7 @@ class ModelArguments:
 def main():
     parser = HfArgumentParser(ModelArguments)
     args = parser.parse_args_into_dataclasses()
+    print(args)
 
     # LOAD DATA
     mild_dataset = load_test(args.test_mild, args)
