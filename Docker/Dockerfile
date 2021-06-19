@@ -18,6 +18,7 @@ RUN apt update && \
 ENV LANG=en_US.utf8
 ENV LC_ALL='en_US.utf8'
 
+RUN pip3 install torchaudio==0.9.0
 #RUN pip3 install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 torchtext==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 
 WORKDIR /workspace
