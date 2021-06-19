@@ -19,7 +19,7 @@ ENV LANG=en_US.utf8
 ENV LC_ALL='en_US.utf8'
 
 #RUN pip3 install torchaudio torchvision==0.9.1+cu111
-RUN pip3 install torch==1.8.1+cu112 torchaudio==0.8.1 torchtext==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+#RUN pip3 install torch==1.8.1+cu112 torchaudio==0.8.1 torchtext==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 
 WORKDIR /workspace
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
