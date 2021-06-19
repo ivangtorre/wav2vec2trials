@@ -276,13 +276,19 @@ def main():
         df_train = df_train[~df_train["file_cut"].str.contains(item)]
         df_test = df_test[~df_test["file_cut"].str.contains(item)]
 
-    df_train = df_train.reset_index(drop=True)
-    df_test = df_test.reset_index(drop=True)
+
 
     # FILTER DURATION
-    #df["duration"] = (df["mark_end"] - df["mark_start"])
-    #df = df[df["duration"] < 25000]
-    #df = df.reset_index(drop=True)
+    df_train["duration"] = (df_train["mark_end"] - df_train["mark_start"])
+    df_test["duration"] = (df_test["mark_end"] - df_test["mark_start"])
+    df_train = df_train[df_train["duration"] < 25000]
+    df_test = df_test[df_test["duration"] < 25000]
+    df_train = df_train[df_train["duration"] > 100]
+    df_test = df_test[df_test["duration"] > 100]
+
+
+    df_train = df_train.reset_index(drop=True)
+    df_test = df_test.reset_index(drop=True)
 
     # REFORMAT AND SAVE
     df_train = df_train[["transcription", "file_cut"]]
