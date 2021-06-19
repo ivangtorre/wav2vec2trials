@@ -354,7 +354,8 @@ def main():
         #speech_array, sampling_rate = torchaudio.load(batch["path"])
         speech_array, sampling_rate = librosa.load(batch["path"], sr=None, mono=False)
         #speech_array = torch.tensor(speech_array)
-        batch["speech"] = speech_array[0].numpy()
+        #batch["speech"] = speech_array[0].numpy()
+        batch["speech"] = speech_array
         batch["sampling_rate"] = 16_000
         batch["target_text"] = batch["sentence"]
         return batch
