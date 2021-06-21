@@ -268,8 +268,8 @@ def main():
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
 
 
-    # df_train = df_train[~df_train["transcription"].isnull()]
-    # df_test = df_test[~df_test["transcription"].isnull()]
+    df_train = df_train[~df_train["transcription"].isnull()]
+    df_test = df_test[~df_test["transcription"].isnull()]
     #
     # eliminar = pd.read_csv("eliminar.csv", ",", header=None)[0].values.tolist()
     # for item in eliminar:
