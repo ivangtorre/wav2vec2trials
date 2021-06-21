@@ -286,6 +286,10 @@ def main():
     # df_train = df_train[df_train["duration"] > 100]
     # df_test = df_test[df_test["duration"] > 100]
 
+    df_train = df_train[~df_train["duration"].str.contains("kansas12")]
+    df_test = df_test[~df_test["duration"].str.contains("kansas12")]
+
+
     df_train = df_train.reset_index(drop=True)
     df_test = df_test.reset_index(drop=True)
 
