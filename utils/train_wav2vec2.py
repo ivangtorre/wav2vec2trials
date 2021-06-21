@@ -268,24 +268,23 @@ def main():
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
 
 
-    df_train = df_train[~df_train["transcription"].isnull()]
-    df_test = df_test[~df_test["transcription"].isnull()]
-
-    eliminar = pd.read_csv("eliminar.csv", ",", header=None)[0].values.tolist()
-    for item in eliminar:
-        df_train = df_train[~df_train["file_cut"].str.contains(item)]
-        df_test = df_test[~df_test["file_cut"].str.contains(item)]
-
-
-
-    # FILTER DURATION
-    df_train["duration"] = (df_train["mark_end"] - df_train["mark_start"])
-    df_test["duration"] = (df_test["mark_end"] - df_test["mark_start"])
-    df_train = df_train[df_train["duration"] < 25000]
-    df_test = df_test[df_test["duration"] < 25000]
-    df_train = df_train[df_train["duration"] > 100]
-    df_test = df_test[df_test["duration"] > 100]
-
+    # df_train = df_train[~df_train["transcription"].isnull()]
+    # df_test = df_test[~df_test["transcription"].isnull()]
+    #
+    # eliminar = pd.read_csv("eliminar.csv", ",", header=None)[0].values.tolist()
+    # for item in eliminar:
+    #     df_train = df_train[~df_train["file_cut"].str.contains(item)]
+    #     df_test = df_test[~df_test["file_cut"].str.contains(item)]
+    #
+    #
+    #
+    # # FILTER DURATION
+    # df_train["duration"] = (df_train["mark_end"] - df_train["mark_start"])
+    # df_test["duration"] = (df_test["mark_end"] - df_test["mark_start"])
+    # df_train = df_train[df_train["duration"] < 25000]
+    # df_test = df_test[df_test["duration"] < 25000]
+    # df_train = df_train[df_train["duration"] > 100]
+    # df_test = df_test[df_test["duration"] > 100]
 
     df_train = df_train.reset_index(drop=True)
     df_test = df_test.reset_index(drop=True)
@@ -297,16 +296,7 @@ def main():
     df_test = df_test[["transcription", "file_cut"]]
     df_test.columns = ["sentence", "path"]
     df_test["path"] = model_args.cache_dir + df_test["path"]
-    #df = df[["transcription", "file_cut"]]
-    #df.columns = ["sentence", "path"]
-    #df["path"] = model_args.cache_dir + df["path"]
-    #all_dataset = Dataset.from_pandas(df)
-    #all_dataset.to_csv("dummy_dataset.csv")
 
-    # SPLIT TRAIN-TEST
-    #all_dataset = all_dataset.train_test_split(test_size=0.4)
-    #train_dataset = all_dataset["train"]
-    #eval_dataset = all_dataset["test"]
     train_dataset = Dataset.from_pandas(df_train)
     eval_dataset = Dataset.from_pandas(df_test)
 
