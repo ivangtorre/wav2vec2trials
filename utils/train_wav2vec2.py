@@ -182,8 +182,13 @@ class CTCTrainer(Trainer):
         if self.use_amp:
             with autocast():
                 loss = self.compute_loss(model, inputs)
+
         else:
             loss = self.compute_loss(model, inputs)
+
+        if not loss < 100: # Check exploding loss
+            print(loss)
+            print(inputs)
 
         if self.args.n_gpu > 1:
             if model.module.config.ctc_loss_reduction == "mean":
