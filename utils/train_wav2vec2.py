@@ -288,6 +288,9 @@ def main():
 
     df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
     df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
+    df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
+    df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
+
 
 
     df_train = df_train.reset_index(drop=True)
