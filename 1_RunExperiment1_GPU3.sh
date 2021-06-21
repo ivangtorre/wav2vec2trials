@@ -31,4 +31,4 @@ nvidia-docker run -it -d --rm --name ${CONTAINER} --runtime=nvidia --shm-size=4g
 set +x
 
 # Execute
-nvidia-docker exec -it ${CONTAINER} bash Experiments/English_Experiment_1_lineal_5.sh
+nvidia-docker exec -it ${CONTAINER} bash Experiments/English_Experiment_2_lineal_10_with_control.sh
