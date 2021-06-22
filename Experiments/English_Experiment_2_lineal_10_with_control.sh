@@ -35,7 +35,7 @@ MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-0}}  # Set to 0 for using all dataset
 DATESTAMP=`date +'%y-%m-%d.%H.%M.%S'`
 #RESULT_DIR=$RESULT_DIR/$LANGUAGE.-WITH-CONTROLS.-EPOCH-$EPOCHS.LR_TYPE-$LR_TYPE.-$DATESTAMP
 #mkdir -p "$RESULT_DIR"
-RESULT_DIR="english.-WITH-CONTROLS.-EPOCH-10.LR_TYPE-linear.-21-06-21.15.39.12"
+RESULT_DIR="results/english.-WITH-CONTROLS.-EPOCH-10.LR_TYPE-linear.-21-06-21.15.39.12"
 
 
 CMD="python3 utils/train_wav2vec2.py"
