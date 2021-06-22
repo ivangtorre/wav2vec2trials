@@ -33,8 +33,9 @@ MAX_VAL_SAMPLES=${28:-${MAX_VAL_SAMPLES:-0}}  # Set to 0 for using all dataset
 
 
 DATESTAMP=`date +'%y-%m-%d.%H.%M.%S'`
-RESULT_DIR=$RESULT_DIR/$LANGUAGE.-WITH-CONTROLS.-EPOCH-$EPOCHS.LR_TYPE-$LR_TYPE.-$DATESTAMP
-mkdir -p "$RESULT_DIR"
+#RESULT_DIR=$RESULT_DIR/$LANGUAGE.-WITH-CONTROLS.-EPOCH-$EPOCHS.LR_TYPE-$LR_TYPE.-$DATESTAMP
+#mkdir -p "$RESULT_DIR"
+RESULT_DIR="english.-WITH-CONTROLS.-EPOCH-10.LR_TYPE-linear.-21-06-21.15.39.12"
 
 
 CMD="python3 utils/train_wav2vec2.py"
@@ -42,7 +43,7 @@ CMD+=" --model_name_or_path=$MODELXLSR"
 CMD+=" --dataset_config_name=$DATASET"
 CMD+=" --dataset_eval=$DATASET_EVAL"
 CMD+=" --output_dir=$RESULT_DIR"
-CMD+=" --overwrite_output_dir"
+#CMD+=" --overwrite_output_dir"
 CMD+=" --num_train_epochs=$EPOCHS"
 CMD+=" --per_device_train_batch_size=$BATCH_SIZE"
 CMD+=" --learning_rate=$LEARNING_RATE"
