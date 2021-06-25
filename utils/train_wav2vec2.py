@@ -186,9 +186,9 @@ class CTCTrainer(Trainer):
         else:
             loss = self.compute_loss(model, inputs)
 
-        if not loss < 100: # Check exploding loss
-            print(loss)
-            print(inputs)
+        #if not loss < 100: # Check exploding loss
+        #    print(loss)
+        #    print(inputs)
 
         if self.args.n_gpu > 1:
             if model.module.config.ctc_loss_reduction == "mean":
@@ -272,9 +272,15 @@ def main():
     df_train = pd.read_csv(data_args.dataset_config_name, delimiter=',')
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
 
-
     df_train = df_train[~df_train["transcription"].isnull()]
     df_test = df_test[~df_test["transcription"].isnull()]
+
+    df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
+    df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
+    df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
+    df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
+
+
     #
     # eliminar = pd.read_csv("eliminar.csv", ",", header=None)[0].values.tolist()
     # for item in eliminar:
@@ -292,10 +298,6 @@ def main():
     # df_test = df_test[df_test["duration"] > 100]
 
 
-    df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
-    df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
-    df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
-    df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
 
 
 
