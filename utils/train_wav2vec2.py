@@ -273,8 +273,8 @@ def main():
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
 
 
-    df_train = df_train[~df_train["transcription"].isnull()]
-    df_test = df_test[~df_test["transcription"].isnull()]
+    # df_train = df_train[~df_train["transcription"].isnull()]
+    # df_test = df_test[~df_test["transcription"].isnull()]
     #
     # eliminar = pd.read_csv("eliminar.csv", ",", header=None)[0].values.tolist()
     # for item in eliminar:
@@ -291,10 +291,10 @@ def main():
     # df_train = df_train[df_train["duration"] > 100]
     # df_test = df_test[df_test["duration"] > 100]
 
-    df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
-    df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
-    df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
-    df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
+    # df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
+    # df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
+    # df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
+    # df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
 
 
 
