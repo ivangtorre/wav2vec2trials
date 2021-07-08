@@ -310,10 +310,10 @@ def main():
     df_test = df_test.reset_index(drop=True)
 
     # REFORMAT AND SAVE
-    df_train = df_train[["transcription", "file"]]
+    df_train = df_train[["transcriptions", "file"]]
     df_train.columns = ["sentence", "path"]
     df_train["path"] = model_args.cache_dir + df_train["path"]
-    df_test = df_test[["transcription", "file"]]
+    df_test = df_test[["transcriptions", "file"]]
     df_test.columns = ["sentence", "path"]
     df_test["path"] = model_args.cache_dir + df_test["path"]
 
