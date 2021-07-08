@@ -272,13 +272,21 @@ def main():
     df_train = pd.read_csv(data_args.dataset_config_name, delimiter=',')
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
 
-    df_train = df_train[~df_train["transcription"].isnull()]
-    df_test = df_test[~df_test["transcription"].isnull()]
+    df_train["transcriptions"] = df_train["transcriptions"].str.replace("<flr>", "F")
+    df_train["transcriptions"] = df_train["transcriptions"].str.replace("<lau>", "L")
+    df_train["transcriptions"] = df_train["transcriptions"].str.replace("<spn>", "S")
 
-    df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
-    df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
-    df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
-    df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
+    df_test["transcriptions"] = df_test["transcriptions"].str.replace("<flr>", "F")
+    df_test["transcriptions"] = df_test["transcriptions"].str.replace("<lau>", "L")
+    df_test["transcriptions"] = df_test["transcriptions"].str.replace("<spn>", "S")
+
+    # df_train = df_train[~df_train["transcription"].isnull()]
+    # df_test = df_test[~df_test["transcription"].isnull()]
+
+    # df_train = df_train[~df_train["file_cut"].str.contains("kansas12")]
+    # df_test = df_test[~df_test["file_cut"].str.contains("kansas12")]
+    # df_train = df_train[~df_train["file_cut"].str.contains("wozniak02")]
+    # df_test = df_test[~df_test["file_cut"].str.contains("wozniak02")]
 
 
     #
@@ -296,9 +304,6 @@ def main():
     # df_test = df_test[df_test["duration"] < 25000]
     # df_train = df_train[df_train["duration"] > 100]
     # df_test = df_test[df_test["duration"] > 100]
-
-
-
 
 
     df_train = df_train.reset_index(drop=True)
