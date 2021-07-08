@@ -272,13 +272,13 @@ def main():
     df_train = pd.read_csv(data_args.dataset_config_name, delimiter=',')
     df_test = pd.read_csv(data_args.dataset_eval, delimiter=',')
 
-    df_train["transcriptions"] = df_train["transcriptions"].str.replace("<flr>", "F")
-    df_train["transcriptions"] = df_train["transcriptions"].str.replace("<lau>", "L")
-    df_train["transcriptions"] = df_train["transcriptions"].str.replace("<spn>", "S")
+    df_train["transcription"] = df_train["transcription"].str.replace("<flr>", "F")
+    df_train["transcription"] = df_train["transcription"].str.replace("<lau>", "L")
+    df_train["transcription"] = df_train["transcription"].str.replace("<spn>", "S")
 
-    df_test["transcriptions"] = df_test["transcriptions"].str.replace("<flr>", "F")
-    df_test["transcriptions"] = df_test["transcriptions"].str.replace("<lau>", "L")
-    df_test["transcriptions"] = df_test["transcriptions"].str.replace("<spn>", "S")
+    df_test["transcription"] = df_test["transcription"].str.replace("<flr>", "F")
+    df_test["transcription"] = df_test["transcription"].str.replace("<lau>", "L")
+    df_test["transcription"] = df_test["transcription"].str.replace("<spn>", "S")
 
     # df_train = df_train[~df_train["transcription"].isnull()]
     # df_test = df_test[~df_test["transcription"].isnull()]
@@ -310,10 +310,10 @@ def main():
     df_test = df_test.reset_index(drop=True)
 
     # REFORMAT AND SAVE
-    df_train = df_train[["transcriptions", "file"]]
+    df_train = df_train[["transcription", "file_cut"]]
     df_train.columns = ["sentence", "path"]
     df_train["path"] = model_args.cache_dir + df_train["path"]
-    df_test = df_test[["transcriptions", "file"]]
+    df_test = df_test[["transcription", "file_cut"]]
     df_test.columns = ["sentence", "path"]
     df_test["path"] = model_args.cache_dir + df_test["path"]
 
