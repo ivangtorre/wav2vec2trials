@@ -5,7 +5,7 @@
 DATA_DIR=${1:-${DATA_DIR:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_07_07/data/"}}  # The folder where audios are stored
 LANGUAGE=${2:-${LANGUAGE:-"english"}} # Language
 DATASET=${2:-${DATASET:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_07_07/df_train_sin_control.csv"}}  # Train Dataset Location
-DATASET_EVAL=${2:-${DATASET_EVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_07_07/df_eval_sin_control.csv"}}  # Eval Dataset Location
+DATASET_EVAL=${2:-${DATASET_EVAL:-"/data/CORPORA/ACOUSTIC_CORPUS/APHASIA/english/2021_07_07/df_eval.csv"}}  # Eval Dataset Location
 RESULT_DIR=${3:-${RESULT_DIR:-"results"}}
 MODELXLSR=${4:-${MODELXLSR:-"facebook/wav2vec2-large-xlsr-53"}}
 MODEL_DIR=${6:-${MODEL_DIR:-"/datasets/modelxlsr"}}
