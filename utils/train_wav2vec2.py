@@ -300,8 +300,8 @@ def main():
     # # FILTER DURATION
     # df_train["duration"] = (df_train["mark_end"] - df_train["mark_start"])
     # df_test["duration"] = (df_test["mark_end"] - df_test["mark_start"])
-    # df_train = df_train[df_train["duration"] < 25000]
-    # df_test = df_test[df_test["duration"] < 25000]
+    df_train = df_train[df_train["duration"] < 30]
+    df_test = df_test[df_test["duration"] < 30]
     # df_train = df_train[df_train["duration"] > 100]
     # df_test = df_test[df_test["duration"] > 100]
 
