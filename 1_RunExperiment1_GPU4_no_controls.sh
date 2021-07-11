@@ -4,7 +4,7 @@
 #####################################
 
 # VARIABLES ####################
-NAME=${NAME:-"wav2vec2hyperparameter"}
+NAME=${NAME:-"wav2vec2"}
 CONTAINER=${CONTAINER:-"wav2vec2_4"}
 export NV_GPU="4"
 
