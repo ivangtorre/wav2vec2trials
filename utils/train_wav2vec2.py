@@ -308,6 +308,9 @@ def main():
     # df_train = df_train[df_train["duration"] > 100]
     # df_test = df_test[df_test["duration"] > 100]
 
+    lista_eliminar = pd.read_csv("eliminar.csv", header=None)[0].to_list()
+    df_train = df_train[~df_train["file_cut"].isin(lista_eliminar)]
+    df_test = df_test[~df_test["file_cut"].isin(lista_eliminar)]
 
     df_train = df_train.reset_index(drop=True)
     df_test = df_test.reset_index(drop=True)
