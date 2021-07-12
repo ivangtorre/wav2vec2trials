@@ -303,8 +303,8 @@ def main():
     df_train = df_train[df_train["duration"] > 0.3]
     df_test = df_test[df_test["duration"] > 0.3]
 
-    df_train = df_train[df_train["duration"] < 25]
-    df_test = df_test[df_test["duration"] < 25]
+    df_train = df_train[df_train["duration"] < 30]
+    df_test = df_test[df_test["duration"] < 30]
     # df_train = df_train[df_train["duration"] > 100]
     # df_test = df_test[df_test["duration"] > 100]
 
